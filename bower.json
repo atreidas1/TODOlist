@@ -1,0 +1,22 @@
+{
+  "name": "TODO",
+  "version": "1.0.0",
+  "authors": [
+    "Mikhail Mylitsa <atreidas1@gmail.com>"
+  ],
+  "description": "to do list application",
+  "main": "index.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.2",
+    "angular-ui-router": "~0.2.15",
+    "angular-bootstrap": "~0.13.0"
+  }
+}

@@ -1,0 +1,30 @@
+form(class="form-horizontal" id="input-task-form")
+          div.row
+            div.col-xs-8
+              input(type="text" class="form-control" placeholder="Create a new task...")
+            div.col-xs-2
+              input(type="text" class="form-control" placeholder="Deadline")
+            div.col-xs-2
+              input(type="submit" class="btn btn-success" value="ADD")
+        div#tasks
+          table(class="table")
+            tr.task
+              td(class="toogle-container col-xs-1 task-field")
+                input(type="checkbox" class="toogle")
+              td(class="task-name col-xs-7 task-field") {{}}
+              td(class="deadline col-xs-2 task-field") {{}}
+              td(class="task-control col-xs-2 task-field")
+                img(src="css/pencil.svg" class="ctrl-btn")
+                img(src="css/trash.svg" class="ctrl-btn")
+        div#footer
+          span(class="select") Display:
+            select(class="btn-default")
+              option(value="All") All
+              option(value="Active") Active
+              option(value="Finished") Finished
+          span(class="select") Sort by:
+            select(class="btn-default")
+              option(value="Name") Name
+              option(value="Date") Date
+          span(class="total-tasks label label-info") Total tasks:
+            span.badge{{}}
