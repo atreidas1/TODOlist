@@ -28,13 +28,15 @@ function TasksController($scope,tasksService,$filter) {
   };
 
 
-  $scope.editTaskname = function (task, event) {
-    var newTaskName = event.target.textContent;
-    console.log(newTaskName.length);
-    if (task.taskname != newTaskName && newTaskName.length != 0) {
-      task.taskname = newTaskName;
-    } else {
-      event.target.textContent = task.taskname;
+  $scope.editTaskName = function (event,task) {
+    var target=event.target;
+    var newTaskName=target.innerText;
+    if(newTaskName!=task.taskname){
+      if(newTaskName.length){
+        task.taskname=newTaskName;
+      }else{
+        target.innerText=task.taskname;
+      }
     }
   }
 }
