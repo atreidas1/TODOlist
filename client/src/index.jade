@@ -5,45 +5,19 @@ html
     title='TO DO'
     link(href="css/bootstrap.min.css", rel="stylesheet")
     link(href="css/style.css", rel="stylesheet")
-
-
   body
-    div(ng-app="toDoList" ng-controller="TasksCotroller")
+    div(ng-app="toDoList")
       div(class="navbar navbar-default")
         div.container
           div.navbar-brand TODO list
           ul(class="nav navbar-nav navbar-right")
             li
-              a(href="#") Sign In
+              a(ui-sref="login") Sign In
             li
-              a(href="#") Register
+              a(ui-sref="register") Register
 
       div(class="container" id="content")
-        div.row
-          div.col-xs-4.col-xs-offset-4
-            form(class="panel panel-primary inp-form")
-              div(class="panel-heading") Edit task:
-              div.banel-body
-                div.row
-                  div.form-group
-                    label(for="task-name") Task:
-                    input(type="text" class="form-control" id="task-name" placeholder="Enter task")
-                  div.form-group
-                    div.row
-                      label(for="date") Deadline:
-                      input(type="password" class="form-control" id="date" placeholder="Enter date")
-                div.form-group
-                  div.row
-                    input(type="submit" class="btn btn-success" value="OK")
-                    button(class="btn btn-danger col-xs-offset-1") Cancel
-
-
-
-
-
-
-
-
-
-
-
+        div(ui-view)
+      script(src="js/angular.min.js")
+      script(src="js/angular-ui-router.min.js")
+      script(src="js/app/app1.js")

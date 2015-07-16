@@ -1,30 +1,34 @@
-form(class="form-horizontal" id="input-task-form")
-          div.row
-            div.col-xs-8
-              input(type="text" class="form-control" placeholder="Create a new task...")
-            div.col-xs-2
-              input(type="text" class="form-control" placeholder="Deadline")
-            div.col-xs-2
-              input(type="submit" class="btn btn-success" value="ADD")
-        div#tasks
-          table(class="table")
-            tr.task
-              td(class="toogle-container col-xs-1 task-field")
-                input(type="checkbox" class="toogle")
-              td(class="task-name col-xs-7 task-field") {{}}
-              td(class="deadline col-xs-2 task-field") {{}}
-              td(class="task-control col-xs-2 task-field")
-                img(src="css/pencil.svg" class="ctrl-btn")
-                img(src="css/trash.svg" class="ctrl-btn")
-        div#footer
-          span(class="select") Display:
-            select(class="btn-default")
-              option(value="All") All
-              option(value="Active") Active
-              option(value="Finished") Finished
-          span(class="select") Sort by:
-            select(class="btn-default")
-              option(value="Name") Name
-              option(value="Date") Date
-          span(class="total-tasks label label-info") Total tasks:
-            span.badge{{}}
+form(class="form-horizontal", id="input-task-form", ng-submit="addTask()")
+  div.row
+    div.col-xs-8
+      input(type="text", class="form-control" placeholder="Create a new task...", ng-model="taskName", required)
+    div.col-xs-2
+      input(type="date", class="form-control", placeholder="Deadline", ng-model="taskDate", required)
+    div.col-xs-2
+      input(type="submit", class="btn btn-success", value="ADD")
+div#tasks(ng-init="filterBy='All'")
+  table.table.table-bordered
+    tr
+      th.col-xs-1 Is finished
+      th.col-xs-8
+        a(ng-click="reverse=!reverse;order('taskname', reverse)") Task
+      th.col-xs-2
+        a(href="", ng-click="reverse=!reverse;order('date', reverse)") Deadline
+      th.col-xs-1 Control
+    tr.task(ng-init="hide='false'", ng-mouseover="hide=false", ng-mouseleave="hide=true", ng-repeat="task in tasks | tasksFilter:filterBy")
+      td(class="toogle-container col-xs-1 task-field")
+        input(type="checkbox" class="toogle" ng-model="task.finished", ng-checked="task.finished")
+      td(class="task-name col-xs-8 task-field",ng-init="editTaskname=false", ng-mouseover="editTaskname=true", ng-mouseleave="editTaskname=false") {{task.taskname}}
+        img(src="css/pencil.svg", class="ctrl-btn", ng-click="editTaskName()", ng-if="editTaskname")
+      td(class="deadline col-xs-2 task-field", ng-init="editDate=false", ng-mouseover="editDate=true" ng-mouseleave="editDate=false") {{task.date|date}}
+        img(src="css/pencil.svg", class="ctrl-btn", ng-click="editTaskDate()" ng-if="editDate")
+      td(class="task-control col-xs-1 task-field")
+        img(src="css/trash.svg", class="ctrl-btn", ng-hide="hide", ng-click="deleteTask($index)")
+div#footer
+  span(class="select") Display:
+    select(class="btn-default", ng-model="filterBy")
+      option(selected, value="All") All
+      option(value="active") Active
+      option(value="finished") Finished
+  span(class="total-tasks label label-info") Total tasks:
+    span.badge{{tasks.length}}

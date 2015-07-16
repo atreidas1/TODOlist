@@ -26,6 +26,7 @@ div .navbar-default {
 #tasks{
   height: 785px;
   border-bottom: 2px solid #e7e7e7;
+  overflow-y: scroll;
 }
 .toogle {
   width: 25px;
