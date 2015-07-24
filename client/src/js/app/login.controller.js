@@ -2,13 +2,13 @@ angular
   .module('toDoList')
   .controller('LoginController', LoginController);
 
-LoginController.$inject = ['$scope',"$state"];
+LoginController.$inject = ['$scope','userService'];
 
-function LoginController($scope, $state) {
-  $scope.Login = function () {
-    var login = $scope.login;
-    var pass = $scope.pass;
-    console.log(login, +" " + pass);
-    $state.go('mytasks');
+function LoginController($scope,userService) {
+
+    $scope.Login = function () {
+      var login = $scope.login;
+      var pass = $scope.pass;
+      userService.loginUser(login,pass);
   }
 }

@@ -2,41 +2,56 @@ angular
   .module('toDoList')
   .controller('TasksController', TasksController);
 
-TasksController.$inject = ['$scope','tasksService','$filter'];
+TasksController.$inject = ['$scope', 'tasksService', '$filter'];
 
-function TasksController($scope,tasksService,$filter) {
-  var orderBy = $filter('orderBy');
+function TasksController($scope, tasksService, $filter) {
+  $scope.deleteTask = deleteTask;
+  $scope.order = order;
   $scope.tasks = tasksService.tasks;
-  $scope.user = userService;
+  $scope.addTask = addTask;
+  $scope.editTaskName = editTaskName;
+  $scope.changeDate = changeDate;
+  $scope.editTaskStatus = editTaskStatus;
+  var orderBy = $filter('orderBy');
 
-  $scope.addTask = function (){
-    tasksService.addTask($scope.taskName,$scope.taskDate);
-    $scope.tasks=tasksService.tasks;
-    $scope.taskName=undefined;
-    $scope.taskDate=undefined;
+  tasksService.loadTasks();
+
+
+  function addTask() {
+    tasksService.addTask($scope.taskName, $scope.taskDate);
+    $scope.tasks = tasksService.tasks;
+    $scope.taskName = undefined;
+    $scope.taskDate = undefined;
   }
 
-  $scope.deleteTask = function ($index) {
-    tasksService.deleteTask($index);
+  function deleteTask($index, task) {
+    tasksService.deleteTask($index, task);
   }
 
- $scope.order = function(predicate, reverse) {
-   console.log(reverse+" "+predicate);
-   console.log($scope.tasks);
-   console.log(tasksService.tasks);
-   $scope.tasks=orderBy(tasksService.tasks, predicate, reverse);
+  function order(predicate, reverse) {
+    $scope.tasks = orderBy(tasksService.tasks, predicate, reverse);
   };
 
 
-  $scope.editTaskName = function (event,task) {
-    var target=event.target;
-    var newTaskName=target.innerText;
-    if(newTaskName!=task.taskname){
-      if(newTaskName.length){
-        task.taskname=newTaskName;
-      }else{
-        target.innerText=task.taskname;
+  function editTaskName(event, task) {
+    var target = event.target;
+    var newTaskName = target.innerText;
+    if (newTaskName != task.taskname) {
+      if (newTaskName.length) {
+        tasksService.editTaskName(task, newTaskName);
+      } else {
+        target.innerText = task.taskname;
       }
     }
+  }
+
+  function changeDate(task, newDate) {
+    if (newDate) {
+      tasksService.editTaskDate(task, newDate);
+    }
+  }
+
+  function editTaskStatus(task) {
+    tasksService.editTaskStatus(task)
   }
 }

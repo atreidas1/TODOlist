@@ -4,13 +4,15 @@ angular
 
 RegisterController.$inject = ['$scope','$state','userService'];
 
-function RegisterController($scope,$state) {
+function RegisterController($scope,$state,userService) {
+
   $scope.register = function () {
     var login = $scope.login;
     var pass = $scope.pass;
     var repPass = $scope.repPass;
-    console.log(login,+" "+pass+' '+repPass);
-    $state.go('mytasks');
-
+    if(login && (pass && repPass)){
+      userService.registerUser(login,pass,repPass);
+    }
   }
+
 }
