@@ -43,6 +43,13 @@ module.exports = function (grunt) {
             dest: 'client/build/js/',
             filter: 'isFile'
           },
+         /* {
+            expand: true,
+            cwd: 'client/src/js/app/',
+            src: ['*.js'],
+            dest: 'client/build/js/app/',
+            filter: 'isFile'
+          },*/
 
           {
             expand: true,
@@ -57,16 +64,16 @@ module.exports = function (grunt) {
     concat: {
       dist: {
         src: [
-            'js/libs/*.js', // Все JS в папке libs
-            'js/global.js' // Конкретный файл
+            'client/src/js/app/*.js', // Все JS в папке libs
+            //'js/global.js' // Конкретный файл
         ],
-        dest: 'js/build/production.js',
+        dest: 'client/build/js/app/app1.js',
       }
     },
     watch: {
       scripts: {
-        files: ['client/src/*.jade','client/src/css/*.css'],
-        tasks: ['jade','copy'],
+        files: ['client/src/*.jade', 'client/src/css/*.css', 'client/src/js/*.js', 'client/src/js/app/*.js'],
+        tasks: ['jade','concat','copy'],
         options: {
           spawn: false,
         },

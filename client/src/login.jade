@@ -1,7 +1,7 @@
 div.row
   div.col-xs-4.col-xs-offset-4
-    form.panel.panel-default.inp-form(ng-submit="register()")
-      div.panel-heading Register:
+    form.panel.panel-default.inp-form(ng-submit="Login()")
+      div.panel-heading Sign in:
       div.banel-body
         div.form-group
           label(for="login") Login:
@@ -10,7 +10,4 @@ div.row
           label(for="pass") Password:
           input#pass.form-control(type="password", placeholder="Enter password", ng-model="pass")
         div.form-group
-          label(for="pass") Repeat password:
-          input#pass(type="password" class="form-control", placeholder="Enter password", ng-model="repPass")
-        div.form-group
-          input.btn.btn-default(type="submit", value="Register")
+          input.btn.btn-success(type="submit", value="Sign In")
