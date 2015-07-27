@@ -18,7 +18,7 @@ function tasksService($resource) {
   serv.tasksResource = $resource('/api/v1/tasks/:taskId/', {
     taskId: '@id'
   }, {
-    editTask: {method: "PATCH"}
+    editTask: {method: 'PATCH'}
   });
 
   return serv;
@@ -46,7 +46,6 @@ function tasksService($resource) {
     var task = {};
     task.task = name;
     task.deadline = date.getUTCFullYear() + '-' + date.getUTCMonth() + '-' + date.getUTCDate();
-    console.log(task.deadline)
     task.user = serv.userUri;
     task.status = false;
 
@@ -54,16 +53,13 @@ function tasksService($resource) {
       function (response) {
         decodeDate(task);
         task.id = response.id;
-
         serv.tasks.push(task);
       },
       function (response) {
-        console.log(response);
       });
   }
 
   function deleteTask(index, task) {
-    console.log(task);
     serv.tasksResource.delete({
         taskId: task.id
       },
@@ -71,7 +67,6 @@ function tasksService($resource) {
         serv.tasks.splice(index, 1);
       },
       function (response) {
-        console.log(response);
       });
   }
 
@@ -80,11 +75,9 @@ function tasksService($resource) {
         taskId: task.id
       },{task: newTaskName },
       function (response) {
-        console.log(response);
         task.task=newTaskName;
       },
       function (response) {
-        console.log(response);
       });
   }
 
@@ -94,11 +87,9 @@ function tasksService($resource) {
         taskId: task.id
       },{deadline: newDeadline },
       function (response) {
-        console.log(response);
         task.deadline=new Date(response.deadline);
       },
       function (response) {
-        console.log(response);
       });
   }
 
@@ -107,10 +98,8 @@ function tasksService($resource) {
         taskId: task.id
       },{status: task.status},
       function (response) {
-        console.log(response);
       },
       function (response) {
-        console.log(response);
         task.status=!task.status;
       });
   }

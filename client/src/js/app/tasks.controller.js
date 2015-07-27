@@ -30,7 +30,7 @@ function TasksController($scope, tasksService, $filter) {
 
   function order(predicate, reverse) {
     $scope.tasks = orderBy(tasksService.tasks, predicate, reverse);
-  };
+  }
 
 
   function editTaskName(event, task) {
@@ -52,6 +52,6 @@ function TasksController($scope, tasksService, $filter) {
   }
 
   function editTaskStatus(task) {
-    tasksService.editTaskStatus(task)
+    tasksService.editTaskStatus(task);
   }
 }

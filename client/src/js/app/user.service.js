@@ -15,40 +15,26 @@ function userService($resource,tasksService) {
   serv.registerUser = registerUser;
   serv.notifyControllers = notifyControllers;
   serv.controllers = [];
-  serv.loginResource = $resource('/api/v1/auth/login/');
-  serv.logoutResource = $resource('/api/v1/auth/logout/');
+  serv.authResource = $resource('/api/v1/auth/:action/',{action: '@action'});
   serv.registerResource = $resource('/api/v1/register/');
 
   return this;
 
   function registerUser(login, password, rePass) {
-    serv.registerResource.save({}, {
+    return serv.registerResource.save({}, {
       username: login,
       password: password,
       repeatpassword: rePass,
-    }, function (response) {
-         serv.setUser(response.user,response.userId);
-         console.log(response);
-    }, function (response) {
-         answer = response;
     });
   }
 
   function loginUser(login, password) {
-    var answer = {}
-    serv.loginResource.save({}, {
-      username: login,
-      password: password
-    }, function (response) {
-      serv.setUser(response.user,response.userId);
-    }, function (response) {
-
-    });
-    return answer;
+    var result=serv.authResource.save({action:'login'}, {username: login,password: password});
+    return result;
   }
 
   function logoutUser() {
-    serv.logoutResource.get(
+    serv.authResource.get({action:'logout'},
       function (response) {
         serv.removeUser();
         serv.notifyControllers();
@@ -64,10 +50,9 @@ function userService($resource,tasksService) {
   }
 
   function setUser(login,id) {
-    serv.user = {}
+    serv.user = {};
     serv.user.login = login;
     tasksService.userUri='/api/v1/user/'+id+'/';
-    console.log(serv.user)
     serv.notifyControllers();
   }
 

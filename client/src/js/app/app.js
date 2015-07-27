@@ -8,27 +8,29 @@ angular.module('toDoList').config(routeConf);
 function routeConf($stateProvider, $urlRouterProvider) {
   //
   // For any unmatched url, redirect to /state1
-  $urlRouterProvider.otherwise("/login");
+  $urlRouterProvider.otherwise('/login');
   //
   // Now set up the states
   $stateProvider
     .state('login', {
       url: '/login',
       templateUrl: 'login.html',
-      controller:  'LoginController as Ctrl'
+      controller:  'LoginController'
     })
     .state('register', {
       url: "/register",
       templateUrl: 'register.html',
-      controller: 'RegisterController as Ctrl'
+      controller: 'RegisterController'
     })
     .state('mytasks', {
       url: '/mytasks',
       templateUrl: 'main.html',
-      controller: 'TasksController as Ctrl'
+      controller: 'TasksController'
     });
 }
 
-angular.module('toDoList').config(['$resourceProvider', function($resourceProvider) {
+angular.
+  module('toDoList').
+  config(['$resourceProvider', function($resourceProvider) {
   $resourceProvider.defaults.stripTrailingSlashes = false;
 }]);

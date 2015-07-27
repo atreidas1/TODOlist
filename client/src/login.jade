@@ -1,13 +1,13 @@
 div.row
   div.col-xs-4.col-xs-offset-4
-    form(class="panel panel-default inp-form", ng-submit="Login()")
-      div(class="panel-heading") Sign in:
+    form.panel.panel-default.inp-form(ng-submit="Login()")
+      div.panel-heading Sign in:
       div.banel-body
         div.form-group
           label(for="login") Login:
-          input(type="text", class="form-control", id="login", placeholder="Enter login", ng-model="login")
+          input#login.form-control(type="text", placeholder="Enter login", ng-model="login")
         div.form-group
           label(for="pass") Password:
-          input(type="password", class="form-control", id="pass", placeholder="Enter password", ng-model="pass")
+          input#pass.form-control(type="password", placeholder="Enter password", ng-model="pass")
         div.form-group
-          input(type="submit", class="btn btn-success", value="Sign In")
+          input.btn.btn-success(type="submit", value="Sign In")
