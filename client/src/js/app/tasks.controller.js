@@ -2,56 +2,92 @@ angular
   .module('toDoList')
   .controller('TasksController', TasksController);
 
-TasksController.$inject = ['$scope', 'tasksService', '$filter'];
+TasksController.$inject = ['$scope', 'tasksService'];
 
-function TasksController($scope, tasksService, $filter) {
-  $scope.deleteTask = deleteTask;
-  $scope.order = order;
-  $scope.tasks = tasksService.tasks;
+function TasksController($scope, tasksService) {
+  $scope.deleteTasks = deleteTasks;
   $scope.addTask = addTask;
   $scope.editTaskName = editTaskName;
   $scope.changeDate = changeDate;
   $scope.editTaskStatus = editTaskStatus;
-  var orderBy = $filter('orderBy');
-
+  $scope.gridOptions = {};
   tasksService.loadTasks();
 
+  var columnDefs = [
+    {name: 'status',type: 'boolean',width: '10%'},
+    {name: 'task',enableCellEdit: true},
+    {name: 'deadline',type: 'date',cellFilter: 'date:"dd-MM-yyyy"',width:'10%'},
+  ];
+
+  $scope.gridOptions = {
+    enableRowSelection: true,
+    showGridFooter: true,
+    enableFiltering: true,
+    enableSelectAll: false,
+    multiSelect:false,
+    selectionRowHeaderWidth: 35,
+    rowHeight: 35,
+    columnDefs: columnDefs,
+    data: tasksService.tasks
+  };
+
+  $scope.gridOptions.onRegisterApi = function (gridApi) {
+    $scope.gridApi = gridApi;
+    gridApi.edit.on.afterCellEdit($scope, defAction);
+  };
+
+  function defAction(rowEntity, colDef, newValue, oldValue){
+    var colum = colDef.name;
+    switch (colum) {
+        case 'task':
+          editTaskName(oldValue, newValue, rowEntity);
+          break;
+        case 'status':
+          editTaskStatus(oldValue, newValue, rowEntity);
+          break;
+        case 'deadline':
+          changeDate(oldValue, newValue, rowEntity);
+          break;
+      }
+  }
 
   function addTask() {
     tasksService.addTask($scope.taskName, $scope.taskDate);
-    $scope.tasks = tasksService.tasks;
+    $scope.gridOptions.data = tasksService.tasks;
     $scope.taskName = undefined;
     $scope.taskDate = undefined;
   }
 
-  function deleteTask($index, task) {
-    tasksService.deleteTask($index, task);
+  function deleteTasks() {
+    var selectedTask=$scope.gridApi.selection.getSelectedRows()[0];
+    var selectedIndex=$scope.gridOptions.data.indexOf(selectedTask);
+    if(selectedIndex>=0){
+      tasksService.deleteTask(selectedIndex,selectedTask);
+      $scope.gridApi.selection.clearSelectedRows();
+    }
   }
 
-  function order(predicate, reverse) {
-    $scope.tasks = orderBy(tasksService.tasks, predicate, reverse);
-  }
-
-
-  function editTaskName(event, task) {
-    var target = event.target;
-    var newTaskName = target.innerText;
-    if (newTaskName != task.taskname) {
-      if (newTaskName.length) {
-        tasksService.editTaskName(task, newTaskName);
+  function editTaskName(oldValue, newValue, task) {
+    if (oldValue != newValue) {
+      if (newValue.length) {
+        tasksService.editTaskName(task, newValue);
       } else {
-        target.innerText = task.taskname;
+        task.task = oldValue;
       }
     }
   }
 
-  function changeDate(task, newDate) {
-    if (newDate) {
-      tasksService.editTaskDate(task, newDate);
+  function changeDate(oldValue, newValue, task) {
+    if (newValue) {
+      tasksService.editTaskDate(task, newValue);
     }
   }
 
-  function editTaskStatus(task) {
-    tasksService.editTaskStatus(task);
+  function editTaskStatus(oldValue, newValue, task) {
+    if (oldValue != newValue) {
+      tasksService.editTaskStatus(task);
+    }else{
+      task.status=oldValue;
+    }
   }
 }
