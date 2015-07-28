@@ -15,7 +15,7 @@ function tasksService($resource) {
   serv.editTaskDate = editTaskDate;
   serv.editTaskStatus = editTaskStatus;
   serv.userUri=undefined;
-  serv.tasksResource = $resource('/api/v1/tasks/:taskId/', {
+  serv.tasksResource = $resource('/api/v1/tasks/:taskId/?limit=0', {
     taskId: '@id'
   }, {
     editTask: {method: 'PATCH'}
@@ -38,7 +38,6 @@ function tasksService($resource) {
         }
       },
       function (response) {
-        console.log(response);
       });
   }
 

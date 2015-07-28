@@ -58,6 +58,13 @@ module.exports = function (grunt) {
             dest: 'client/build/css/',
             filter: 'isFile'
           },
+          {
+            expand: true,
+            cwd: 'client/src/js/relese',
+            src: ['*.*'],
+            dest: 'client/build/js/relese',
+            filter: 'isFile'
+          },
     ],
       },
     },

@@ -1,0 +1,17 @@
+
+form#input-task-form.form-horizontal(ng-submit="addTask()")
+  div.row
+    div.col-xs-7
+      input.form-control(type="text", placeholder="Create a new task...", ng-model="taskName", required)
+    div.col-xs-3
+      span.input-group
+        input.form-control(type="text", placeholder="Deadline: dd.mm.yyyy", ng-model="taskDate",
+        datepicker-popup="dd-MM-yyyy", ng-init="datePicer.opened=false", is-open="datePicer.opened", readonly, required)
+        span.input-group-btn
+          button.btn.btn-default(type="button", ng-click="$event.stopPropagation();datePicer.opened=true")
+            i(class="glyphicon glyphicon-calendar")
+    div.col-xs-2
+      input.btn.btn-success(type="submit", value="ADD")
+
+div.grid(ui-grid="gridOptions" ui-grid-edit ui-grid-selection)
+button.btn.btn-succes(ng-click="deleteTasks()") Delete

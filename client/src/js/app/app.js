@@ -1,7 +1,10 @@
 angular
   .module('toDoList', ['ui.router',
                        'ui.bootstrap',
-                       'ngResource']);
+                       'ngResource',
+                       'ui.grid',
+                       'ui.grid.edit',
+                       'ui.grid.selection',]);
 
 angular.module('toDoList').config(routeConf);
 
@@ -24,7 +27,7 @@ function routeConf($stateProvider, $urlRouterProvider) {
     })
     .state('mytasks', {
       url: '/mytasks',
-      templateUrl: 'main.html',
+      templateUrl: 'ui-grid.html',
       controller: 'TasksController'
     });
 }

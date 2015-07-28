@@ -6,11 +6,12 @@ var bodyParser = require('body-parser'),
 app.use('/', express.static('../client/build/index.html'));
 app.use(express.static('../client/build/'));
 app.use(express.static('../client/build/js/'));
-app.use(bodyParser.json())
+app.use(express.static('../client/build/js/relese/'));
+app.use(bodyParser.json());
 
 var proxy = new httpProxy.createProxyServer();
 
-app.all('/*', function (req, res) {
+app.all('/api/*', function (req, res) {
 
   req.removeAllListeners('data');
   req.removeAllListeners('end');
